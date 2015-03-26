@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Krusty Kookies AB</title>
+      <link href="css/bootstrap.min.css" rel="stylesheet">
+      <link href="css/mycss.css" rel="stylesheet">
+   </head>
+   <body ng-app="krustyapp" ng-controller="producecontroller">
+      <div class="container">
+      <div class="box">
+         <div ng-include='"header.html"'></div>
+       
+        <form action="produce.php">
+        <div class="row">
+         <div class="col-md-2">
+               <label>Amount:</label> <input class="form-control" type="text" name="amount"></input>
+          </div>
+          <div class="col-md-4">
+               <label>Sort:</label> <select name="sel" class="form-control" ng-model="cookie" ng-options="f for f in cookies"></select>
+          </div>
+          <div class="col-md-2">
+          <br>
+               <input type="submit" class="form-control" value="Produce"></input>
+          </div>
+        </div>
+        </form>
+      </div>
+      </div>
+
+
+
+      <div class="clearfix"></div>
+      </div>
+      </div>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
+      <script>
+         var app = angular.module('krustyapp', []);
+         function producecontroller($scope){
+
+
+            $scope.cookies = ['Nut ring', 'Nut cookie', 'Amneris', 'Tango', 'Almond delight', 'Berliner'];
+             $scope.cookie = $scope.cookies[0];
+
+         };
+      </script>
+   </body>
+</html>

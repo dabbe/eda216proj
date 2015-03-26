@@ -1,0 +1,193 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage[colorinlistoftodos]{todonotes}
+
+\title{Project in EDA216 - Database Technology \\ Krusty Kookies Sweden AB}
+
+\author{ 
+  Olsson, Daniel\\
+  D11\\
+  \texttt{atf10dol@student.lu.se}
+  \and
+  Vidmar, Jonathan\\
+  D11\\
+  \texttt{dat11jvi@student.lu.se}
+}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+
+\newpage
+
+\section{Program Instructions}
+To run the program, you have to obtain a web server that can run PHP. 
+
+If using e.g. MAMP, you simply start up the web server, go to Preferences, Web Server and then choose the project folder as the root directory (the folder containing the css, fonts and js folders).
+
+After that, simply go into your web browser and type "localhost" and you should be all set!
+
+\section{Introduction}
+The project was done for a course on LTH, EDA216 - Database Technology. The purpose of the project was teach the students how to interpret loose requirements and translate them into a technical specification and finally into a database system. 
+
+The system is designed for a cookie production company called Krusty Kookies AB. The whole system consists of several different programs but only a program, called program 2, is implemented.
+
+\section{Requirements}
+As the project specification reveals, only program number two is to be implemented. Therefore, anything regarding handling raw materials and recipes is not implemented. The program handling everything that concerns orders and deliveries is also not implemented.
+
+The program is able to search for pallets with pallet number, pallets with a certain cookie type or pallets produced during a certain time interval.
+
+\section{Outline}
+The system is a web application built with HTML/CSS (Bootstrap), JavaScript (AngularJS), PHP together with a MySQL server.
+
+When visiting localhost, one is prompted with a html-page. In order for this to be able to communicate with the database, it can send a HTTP GET request to the server hosting the PHP-file, e.g. getPallets.php. This PHP-file creates a database connection with PDO (PHP Data Objects) to a MySQL server hosted at LTH. The result is then returned and written back to the client (web-page) formatted as JSON.
+
+\section{ER-Diagram}
+bild kmr komma här
+
+\section{Relations}
+Primary Keys are marked in \textbf{bold}. Foreign keys are marked in \emph{italic}.\\
+Cookies(\textbf{name}) \\
+Customers(\textbf{name}, address) \\
+Delivered\_Pallets(\textbf{\emph{pallet\_id}}, \emph{customer\_name}, date\_delivered) \\
+Ingredients(\textbf{\emph{material}}, \textbf{\emph{cookie}}, amount) \\
+Ordered\_Pallets(\emph{cookie}, \emph{order\_id},quantity) \\
+Orders(\textbf{id}, \emph{customer\_name}, delivery\_date) \\
+Produced\_Pallets(\textbf{pallet\_id}, \emph{cookie}, date\_produced, blocked) \\
+Raw\_Materials(\textbf{name}, quantity, last\_refilled, refilled\_quantity) \\
+
+In all tables, there are no functional dependencies other than key dependencies, therefore the relations are in BCNF.
+
+\section{SQL Statements}
+
+\begin{lstlisting}
+SET foreign_key_checks = 0;
+DROP TABLE if exists customers;
+
+CREATE TABLE customers
+(
+	name VARCHAR(255) PRIMARY KEY,
+	address VARCHAR(255) NOT NULL
+);
+SET foreign_key_checks = 1;
+
+/* -------------------------------- */
+
+SET foreign_key_checks = 0;
+DROP TABLE if exists orders;
+
+CREATE TABLE orders
+(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	delivery_date DATE NOT NULL,
+	customer_name VARCHAR(255) NOT NULL,
+	FOREIGN KEY (customer_name) references customers(name)
+);
+SET foreign_key_checks = 1;
+
+
+/* -------------------------------- */
+SET foreign_key_checks = 0;
+
+DROP TABLE if exists cookies;
+
+CREATE TABLE cookies
+(
+	name VARCHAR(255) PRIMARY KEY
+);
+SET foreign_key_checks = 1;
+
+/* -------------------------------- */
+
+SET foreign_key_checks = 0;
+DROP TABLE if exists ordered_pallets;
+
+CREATE TABLE ordered_pallets
+(
+	cookie VARCHAR(255) NOT NULL,
+	order_id INT NOT NULL,
+	quantity INT NOT NULL,
+	FOREIGN KEY(cookie) references cookies(name),
+	FOREIGN KEY(order_id) references orders(id)
+);
+
+SET foreign_key_checks = 1;
+/* -------------------------------- */
+
+SET foreign_key_checks = 0;
+DROP TABLE if exists produced_pallets;
+
+CREATE TABLE produced_pallets
+(
+	pallet_id INT AUTO_INCREMENT PRIMARY KEY,
+	cookie VARCHAR(255) NOT NULL,
+	date_produced DATE NOT NULL,
+	blocked BOOLEAN,
+	FOREIGN KEY(cookie) references cookies(name)
+);
+
+SET foreign_key_checks = 1;
+
+/* -------------------------------- */
+
+SET foreign_key_checks = 0;
+DROP TABLE if exists delivered_pallets;
+
+CREATE TABLE delivered_pallets
+(
+	pallet_id INT PRIMARY KEY,
+	customer_name VARCHAR(255) NOT NULL,
+	date_delivered DATE NOT NULL,
+	FOREIGN KEY(pallet_id) references produced_pallets(pallet_id),
+	FOREIGN KEY(customer_name) references customers(name)
+);
+
+SET foreign_key_checks = 1;
+
+/* -------------------------------- */
+
+SET foreign_key_checks = 0;
+
+DROP TABLE if exists raw_materials;
+
+CREATE TABLE raw_materials
+(
+	name VARCHAR(255) PRIMARY KEY,
+	quantity INT NOT NULL,
+	measurement ENUM('dl', 'g'),
+	last_refilled DATE NOT NULL,
+	refilled_quantity INT NOT NULL
+);
+
+SET foreign_key_checks = 1;
+/* -------------------------------- */
+
+SET foreign_key_checks = 0;
+
+DROP TABLE if exists ingredients;
+
+CREATE TABLE ingredients
+(
+	amount FLOAT NOT NULL,
+	material VARCHAR(255) NOT NULL,
+	cookie VARCHAR(255) NOT NULL,
+	FOREIGN KEY (material) references raw_materials(name),
+	FOREIGN KEY (cookie) references cookies(name),
+  	PRIMARY KEY (material, cookie)
+);
+
+SET foreign_key_checks = 1;
+SET NAMES 'utf8';
+SET CHARACTER SET utf8;
+
+\end{lstlisting}
+
+\end{document}

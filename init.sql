@@ -35,8 +35,6 @@ DROP TABLE if exists cookies;
 CREATE TABLE cookies
 (
 	name VARCHAR(255) PRIMARY KEY
-
-	/* id auto increment */
 );
 SET foreign_key_checks = 1;
 
@@ -52,7 +50,6 @@ CREATE TABLE ordered_pallets
 	quantity INT NOT NULL,
 	FOREIGN KEY(cookie) references cookies(name),
 	FOREIGN KEY(order_id) references orders(id)
-	/* order_id foreign*/
 );
 
 SET foreign_key_checks = 1;

@@ -122,14 +122,14 @@ class Database {
 		return $this->executeQuery($sql, array($i));
 	}
 
-	public function getPalletsByDate($a, $b){
+	public function getPalletsByDate($a, $b, $c){
 				$sql = "select cookie, date_produced, customer_name, date_delivered 
 				from produced_pallets a 
 					left join 
 					delivered_pallets b 
 				on a.pallet_id = b.pallet_id 
-				where date_produced between ? and ?";
-		return $this->executeQuery($sql, array($a, $b));
+				where date_produced between ? and ? and cookie = ?";
+		return $this->executeQuery($sql, array($a, $b, $c));
 	}
 
 	public function producePallet($j, $k){

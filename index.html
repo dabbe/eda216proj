@@ -25,7 +25,7 @@
             </div>        
          <div class="col-lg-4">
                 <form ng-submit="dateinterval()">
-                  <input type="text" id="dateinterval" class="form-control" placeholder="Date example: YYYY-MM-DD YYYY-MM-DD">
+                  <input type="text" id="dateinterval" class="form-control" placeholder="Date example: YYYY-MM-DD,YYYY-MM-DD,COOKIENAME">
                </form>
             </div>      
              </div>
@@ -103,9 +103,9 @@
            $scope.dateinterval = function(){
             $scope.search = 3;
             var v = document.getElementById("dateinterval").value;
-            var split = v.split(" ");
+            var split = v.split(",");
 
-            $http.get("getPalletsByDate.php?first=" + split[0] + "&second=" + split[1]).then(function(res){
+            $http.get("getPalletsByDate.php?first=" + split[0] + "&second=" + split[1] + "&cookie=" + split[2]).then(function(res){
              $scope.pallets = res.data;
             });
 

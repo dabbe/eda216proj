@@ -3,7 +3,7 @@
   require_once("database.inc.php");
   $db = new Database($host, $userName, $password, $database);
   $db->openConnection();
-  $pallets = $db->getPalletsByDate($_GET['first'], $_GET['second']);
+  $pallets = $db->getPalletsByDate($_GET['first'], $_GET['second'], $_GET['cookie']);
   $data = array();
   foreach($pallets as $row){
 		array_push($data, array(

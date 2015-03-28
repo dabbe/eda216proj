@@ -103,7 +103,7 @@ class Database {
 
 
 	public function getPallet($i){
-		$sql = "select cookie, date_produced, customer_name, date_delivered 
+		$sql = "select cookie, date_produced, customer_name, date_delivered, blocked
 				from produced_pallets a 
 					left join 
 					delivered_pallets b 
@@ -113,7 +113,7 @@ class Database {
 	}
 
 	public function getPallets($i){
-		$sql = "select cookie, date_produced, customer_name, date_delivered 
+		$sql = "select cookie, date_produced, customer_name, date_delivered, blocked
 				from produced_pallets a 
 					left join 
 					delivered_pallets b 

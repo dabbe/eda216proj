@@ -10,7 +10,8 @@
 			'cookie' => $row['cookie'], 
       'date_delivered' => $row['date_delivered'],
       'date_produced' => $row['date_produced'],
-			'customer_name' => $row['customer_name']));
+			'customer_name' => $row['customer_name'],
+      'blocked' => $row['blocked'] == 0 ? "No" : "Yes"));
   }
   echo json_encode($data);
   $db->closeConnection();

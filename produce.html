@@ -13,13 +13,13 @@
       <div class="box">
          <div ng-include='"header.html"'></div>
        
-        <form  ng-submit="producepallet()">
+        <form ng-submit="producepallet()">
         <div class="row">
          <div class="col-md-2">
-               <label>Amount:</label> <input class="form-control" type="text" name="amount"></input>
+               <label>Amount:</label> <input class="form-control" type="text" id="cookieamount" name="amount"></input>
           </div>
           <div class="col-md-4">
-               <label>Sort:</label> <select name="cookie" class="form-control" ng-model="cookie" ng-options="f for f in cookies"></select>
+               <label>Sort:</label> <select name="cookie" id ="cookietype" class="form-control" ng-model="cookie" ng-options="f for f in cookies"></select>
           </div>
           <div class="col-md-2">
           <br>
@@ -29,9 +29,6 @@
         </form>
       </div>
       </div>
-
-
-
       <div class="clearfix"></div>
       </div>
       </div>
@@ -40,20 +37,18 @@
       <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
       <script>
          var app = angular.module('krustyapp', []);
-         function producecontroller($scope){
+         function producecontroller($scope, $http){
 
           $scope.producepallet = function(){
-            var a = document.getElementById("amount").value;
-            var c = document.getElementById("cookie").value;
-
-            $http.get('produce.php?amount=' + a + "&cookie=" + c).then(function(res){
-              
+            
+            var a = document.getElementById("cookieamount").value;
+            var c = document.getElementById("cookietype").value;
+            $http.get('produce.php?amount=' + a + "&cookie=" + $scope.cookies[c]).then(function(res){
+                alert(a + " " + $scope.cookies[c] + " produced.");
              });
-           };
-
-
-            $scope.cookies = ['Nut ring', 'Nut cookie', 'Amneris', 'Tango', 'Almond delight', 'Berliner'];
-             $scope.cookie = $scope.cookies[0];
+           };            
+          $scope.cookies = ['Nut Ring', 'Nut Cookie', 'Amneris', 'Tango', 'Almond Delight', 'Berliner'];
+          $scope.cookie = $scope.cookies[0];
 
          };
       </script>

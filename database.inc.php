@@ -134,11 +134,10 @@ class Database {
 		$ingredients = $this->executeQuery($sql, array($k));
 		foreach ($ingredients as $row) {
 			$sql = "update raw_materials
-				set quantity = quantity - ? * " + $row['amount'] + 
-				" where name = " + $row['material'];
-			$this->executeUpdate($sql, array($j));
+				set quantity = quantity - ? * ?  
+				where name = ?";
+			$this->executeUpdate($sql, array($j, $row['amount'], $row['material']));
 		}
-		
 	}
 
 	public function blockIngredient(){

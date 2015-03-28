@@ -1,3 +1,3 @@
 * Blocking ska göra någonting
 
-* kunna tillverka nya (beställa?)
+* första sqlsatsen i producePallet() failar atm

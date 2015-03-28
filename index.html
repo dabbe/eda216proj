@@ -20,11 +20,11 @@
             </div>
             <div class="col-lg-4">
                 <form ng-submit="productname()">
-                  <input type="text" class="form-control" placeholder="Search with product name..">
+                  <input type="text" id="pname" class="form-control" placeholder="Search with product name..">
                 </form>
             </div>        
          <div class="col-lg-4">
-                <form ng-submit="productname()">
+                <form ng-submit="date()">
                   <input type="text" class="form-control" placeholder="Search with date interval..">
                </form>
             </div>      
@@ -66,13 +66,15 @@
             $scope.palletnbr = function(){
             var v = document.getElementById("nbr").value;
 
-            $http.get('getPallets.php?nbr=' + v).then(function(res){
+            $http.get('getPallet.php?nbr=' + v).then(function(res){
               $scope.pallets = res.data;
              });
            };
 
             $scope.productname = function(){
-            $http.get('getPallets.php').then(function(res){
+            var v = document.getElementById("pname").value;
+
+            $http.get('getPallets.php?pname=' + v).then(function(res){
                $scope.pallets = res.data;
              });
 

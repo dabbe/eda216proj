@@ -3,7 +3,7 @@
   require_once("database.inc.php");
   $db = new Database($host, $userName, $password, $database);
   $db->openConnection();
-  $pallets = $db->getPallets($_GET['pname']);
+  $pallets = $db->getPallet($_GET['nbr']);
   $data = array();
   foreach($pallets as $row){
 		array_push($data, array(

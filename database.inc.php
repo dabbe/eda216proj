@@ -102,7 +102,7 @@ class Database {
 	}
 
 
-	public function getPallets($i){
+	public function getPallet($i){
 		$sql = "select cookie, date_produced, customer_name, date_delivered 
 				from produced_pallets a 
 					left join 
@@ -112,8 +112,33 @@ class Database {
 		return $this->executeQuery($sql, array($i));
 	}
 
-	public function producePallet(){
-		// kolla om ingredienserna är tomma, if yes then interrupt else go go
+	public function getPallets($i){
+		$sql = "select cookie, date_produced, customer_name, date_delivered 
+				from produced_pallets a 
+					left join 
+					delivered_pallets b 
+				on a.pallet_id = b.pallet_id 
+				where a.cookie = ?";
+		return $this->executeQuery($sql, array($i));
+	}
+
+	public function producePallet($j, $k){
+		for ($i=0; $i < $j; $i++) { 
+			$sql = "insert into produced_pallets (cookie, date_produced, blocked)
+					values (?, CURDATE(), 0)";
+			$this->executeUpdate($sql, array($k));
+		}
+		$sql = "select material, amount
+				from ingredients
+				where cookie = ?";
+		$ingredients = $this->executeQuery($sql, array($k));
+		foreach ($ingredients as $row) {
+			$sql = "update raw_materials
+				set quantity = quantity - ? * " + $row['amount'] + 
+				" where name = " + $row['material'];
+			$this->executeUpdate($sql, array($j));
+		}
+		
 	}
 
 	public function blockIngredient(){

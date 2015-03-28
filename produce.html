@@ -13,13 +13,13 @@
       <div class="box">
          <div ng-include='"header.html"'></div>
        
-        <form action="produce.php">
+        <form  ng-submit="producepallet()">
         <div class="row">
          <div class="col-md-2">
                <label>Amount:</label> <input class="form-control" type="text" name="amount"></input>
           </div>
           <div class="col-md-4">
-               <label>Sort:</label> <select name="sel" class="form-control" ng-model="cookie" ng-options="f for f in cookies"></select>
+               <label>Sort:</label> <select name="cookie" class="form-control" ng-model="cookie" ng-options="f for f in cookies"></select>
           </div>
           <div class="col-md-2">
           <br>
@@ -41,6 +41,15 @@
       <script>
          var app = angular.module('krustyapp', []);
          function producecontroller($scope){
+
+          $scope.producepallet = function(){
+            var a = document.getElementById("amount").value;
+            var c = document.getElementById("cookie").value;
+
+            $http.get('produce.php?amount=' + a + "&cookie=" + c).then(function(res){
+              
+             });
+           };
 
 
             $scope.cookies = ['Nut ring', 'Nut cookie', 'Amneris', 'Tango', 'Almond delight', 'Berliner'];

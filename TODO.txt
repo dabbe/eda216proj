@@ -1,3 +1,1 @@
-* Blocking ska göra någonting
-
-* första sqlsatsen i producePallet() failar atm
+hm fick den att visa blocking men sen funkade inte search by date för mig så kunde aldrig testa om min blocking metod fungerade men jaja

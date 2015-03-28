@@ -13,29 +13,14 @@
       <div class="box">
          <div ng-include='"header.html"'></div>
          <div class="row">
-            <div class="col-lg-5">
-               <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Search FPOOOORRRR...">
-                  <span class="input-group-btn">
-                  <button class="btn btn-default" ng-click="clk()" type="button">Go!</button>
-                  </span>
-               </div>
+            <div class="col-lg-4">
+                  <form ng-submit="blockpallets()">
+                     <input type="text" id="blockinterval" class="form-control" placeholder="YYYY-MM-DD,YYYY-MM-DD,Cookie name">
+                  </form>
             </div>
          </div>
       </div>
       </div>
-      <ul class="list-group">
-         <li class="list-group-item" ng-repeat="pallet in pallets">
-            <div class="col-md-10">
-               <b>Cookie:</b> {{pallet.cookie}}<br><b>Order id:</b> {{pallet.order_id}}<br><b>Quantity:</b> {{pallet.quantity}}
-            </div>
-            <div class="col-md-2">
-               <button> Block</button>
-            </div>
-            <div class="clearfix"></div>
-         </li>
-         </p>  
-      </ul>
       <div class="clearfix"></div>
       </div>
       </div>
@@ -47,8 +32,7 @@
          
          function krustycontroller($scope, $http){
            $scope.clk = function(){
-            $http.get('getPallets.php').then(function(res){
-               $scope.pallets = res.data;
+            $http.get('blockPallets.php').then(function(res){
              });
            };
          };

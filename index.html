@@ -36,7 +36,7 @@
         <div class="box" >
 
               <ul class="list-group" ng-show="search == 1">
-                 <li class="list-group-item" ng-repeat="pallet in pallets">
+                 <li class="list-group-item" ng-repeat="pallet in pallets track by $index">
                     <div class="col-md-10">
                        <b>Cookie:</b> {{pallet.cookie}}<br>
                        <b>Date produced:</b> {{pallet.date_produced}}<br>
@@ -46,7 +46,6 @@
                        <span ng-hide="{{pallet.date_delivered}}">The pallet has not been delivered!</span>
                     </div>
                       <div class="col-md-2">
-                     <button> Block</button>
                   </div>
                   <div class="clearfix"></div>
                </li>
@@ -74,6 +73,7 @@
                 var v = document.getElementById("nbr").value;
 
                 $http.get('getPallet.php?nbr=' + v).then(function(res){
+                  
                   $scope.pallets = res.data;
                  });
            };
@@ -93,6 +93,7 @@
             var split = v.split(",");
 
             $http.get("getPalletsByDate.php?first=" + split[0] + "&second=" + split[1] + "&cookie=" + split[2]).then(function(res){
+              console.log(res.data);
              $scope.pallets = res.data;
             });
 

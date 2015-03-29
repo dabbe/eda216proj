@@ -112,11 +112,11 @@ class Database {
 		return $this->executeQuery($sql, array($i));
 	}
 
-	public function blockPallet($i){
+	public function blockPalletsByDate($first, $second, $cookie){
 		$sql = "update produced_pallets
 				set blocked = (blocked + 1) % 2
-				where pallet_id = ?";
-		$this->executeUpdate($sql, array($i));
+				where date_produced between ? and ? and cookie = ?";
+		$this->executeUpdate($sql, array($first, $second, $cookie));
 	}
 
 	public function getPallets($i){
@@ -130,7 +130,7 @@ class Database {
 	}
 
 	public function getPalletsByDate($a, $b, $c){
-				$sql = "select cookie, date_produced, customer_name, date_delivered, blocked, pallet_id
+				$sql = "select cookie, date_produced, customer_name, date_delivered, blocked, a.pallet_id
 				from produced_pallets a 
 					left join 
 					delivered_pallets b 
